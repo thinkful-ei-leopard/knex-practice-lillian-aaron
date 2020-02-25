@@ -34,19 +34,32 @@ const knexInstance = knex({
 
 // getAllPaginated(1);
 
-function getAllAfterDate(daysAgo) {
+// function getAllAfterDate(daysAgo) {
+//   knexInstance
+//     .select('name', 'price', 'date_added')
+//     .from('shopping_list')
+//     .where(
+//       'date_added',
+//       '<',
+//       // eslint-disable-next-line quotes
+//       knexInstance.raw(`now() - '?? days'::INTERVAL`, daysAgo)
+//     )
+//     .then(results => {
+//       console.log(results);
+//     });
+// }
+
+// getAllAfterDate(12);
+
+function getTotalCost() {
   knexInstance
-    .select('name', 'price', 'date_added')
+    .select('category')
     .from('shopping_list')
-    .where(
-      'date_added',
-      '<',
-      // eslint-disable-next-line quotes
-      knexInstance.raw(`now() - '?? days'::INTERVAL`, daysAgo)
-    )
+    .sum({ totalPrice: ['price']})
+    .groupBy('category')
     .then(results => {
       console.log(results);
     });
 }
 
-getAllAfterDate(12);
+getTotalCost();
